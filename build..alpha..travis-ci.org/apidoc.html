@@ -1,0 +1,295 @@
+<div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a
+
+        href="https://github.com/dominictarr/hyperscript"
+
+    >hyperscript (v2.0.2)</a>
+</h1>
+<h4>Create HyperText with JavaScript, on client or server.</h4>
+<div class="apidocSectionDiv"><a
+    href="#apidoc.tableOfContents"
+    id="apidoc.tableOfContents"
+><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.hyperscript">module hyperscript</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.hyperscript.cleanup">
+            function <span class="apidocSignatureSpan">hyperscript.</span>cleanup
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.hyperscript.context">
+            function <span class="apidocSignatureSpan">hyperscript.</span>context
+            <span class="apidocSignatureSpan">()</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.hyperscript" id="apidoc.module.hyperscript">module hyperscript</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.hyperscript.cleanup" id="apidoc.element.hyperscript.cleanup">
+        function <span class="apidocSignatureSpan">hyperscript.</span>cleanup
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">cleanup = function () {
+  for (var i = 0; i &#x3c; cleanupFuncs.length; i++){
+    cleanupFuncs[i]()
+  }
+  cleanupFuncs.length = 0
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+    text(&#x27;you are 1,000,000th visitor!&#x27;)
+    e.preventDefault()
+  }
+}, text)
+
+// then if you want to remove this widget from the page
+// to cleanup
+h.<span class="apidocCodeKeywordSpan">cleanup</span>()
+
+```
+## Ecosystem
+
+* [html2hscript](https://github.com/twilson63/html2hscript) - Parse HTML into hyperscript
+* [dom2hscript](https://github.com/AkeemMcLennon/dom2hscript) - Frontend library for parsing HTML into hyperscript using the browser
+&#x27;s built in parser.
+* [html2hscript.herokuapp.com](http://html2hscript.herokuapp.com/) - Online Tool that converts html snippets to hyperscript
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.hyperscript.context" id="apidoc.element.hyperscript.context">
+        function <span class="apidocSignatureSpan">hyperscript.</span>context
+        <span class="apidocSignatureSpan">()</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function context() {
+
+  var cleanupFuncs = []
+
+  function h() {
+    var args = [].slice.call(arguments), e = null
+    function item (l) {
+      var r
+      function parseClass (string) {
+        // Our minimal parser doesn’t understand escaping CSS special
+        // characters like `#`. Don’t use them. More reading:
+        // https://mathiasbynens.be/notes/css-escapes .
+
+        var m = split(string, /([\.#]?[^\s#.]+)/)
+        if(/^\.|#/.test(m[1]))
+          e = document.createElement(&#x27;div&#x27;)
+        forEach(m, function (v) {
+          var s = v.substring(1,v.length)
+          if(!v) return
+          if(!e)
+            e = document.createElement(v)
+          else if (v[0] === &#x27;.&#x27;)
+            ClassList(e).add(s)
+          else if (v[0] === &#x27;#&#x27;)
+            e.setAttribute(&#x27;id&#x27;, s)
+        })
+      }
+
+      if(l == null)
+        ;
+      else if(&#x27;string&#x27; === typeof l) {
+        if(!e)
+          parseClass(l)
+        else
+          e.appendChild(r = document.createTextNode(l))
+      }
+      else if(&#x27;number&#x27; === typeof l
+        || &#x27;boolean&#x27; === typeof l
+        || l instanceof Date
+        || l instanceof RegExp ) {
+          e.appendChild(r = document.createTextNode(l.toString()))
+      }
+      //there might be a better way to handle this...
+      else if (isArray(l))
+        forEach(l, item)
+      else if(isNode(l))
+        e.appendChild(r = l)
+      else if(l instanceof Text)
+        e.appendChild(r = l)
+      else if (&#x27;object&#x27; === typeof l) {
+        for (var k in l) {
+          if(&#x27;function&#x27; === typeof l[k]) {
+            if(/^on\w+/.test(k)) {
+              (function (k, l) { // capture k, l in the closure
+                if (e.addEventListener){
+                  e.addEventListener(k.substring(2), l[k], false)
+                  cleanupFuncs.push(function(){
+                    e.removeEventListener(k.substring(2), l[k], false)
+                  })
+                }else{
+                  e.attachEvent(k, l[k])
+                  cleanupFuncs.push(function(){
+                    e.detachEvent(k, l[k])
+                  })
+                }
+              })(k, l)
+            } else {
+              // observable
+              e[k] = l[k]()
+              cleanupFuncs.push(l[k](function (v) {
+                e[k] = v
+              }))
+            }
+          }
+          else if(k === &#x27;style&#x27;) {
+            if(&#x27;string&#x27; === typeof l[k]) {
+              e.style.cssText = l[k]
+            }else{
+              for (var s in l[k]) (function(s, v) {
+                if(&#x27;function&#x27; === typeof v) {
+                  // observable
+                  e.style.setProperty(s, v())
+                  cleanupFuncs.push(v(function (val) {
+                    e.style.setProperty(s, val)
+                  }))
+                } else
+                  var match = l[k][s].match(/(.*)\W+!important\W*$/);
+                  if (match) {
+                    e.style.setProperty(s, match[1], &#x27;important&#x27;)
+                  } else {
+                    e.style.setProperty(s, l[k][s])
+                  }
+              })(s, l[k][s])
+            }
+          } else if(k === &#x27;attrs&#x27;) {
+            for (var v in l[k]) {
+              e.setAttribute(v, l[k][v])
+            }
+          }
+          else if (k.substr(0, 5) === &#x22;data-&#x22;) {
+            e.setAttribute(k, l[k])
+          } else {
+            e[k] = l[k]
+          }
+        }
+      } else if (&#x27;function&#x27; === typeof l) {
+        //assume it&#x27;s an observable!
+        var v = l()
+        e.appendChild(r = isNode(v) ? v : document.createTextNode(v))
+
+        cleanupFuncs.push(l(function (v) {
+          if(isNode(v) &#x26;&#x26; r.parentElement)
+            r.parentElement.replaceChild(v, r), r = v
+          else
+            r.textContent = v
+        }))
+      }
+
+      return r
+    }
+    while(args.length)
+      item(args.shift())
+
+    return e
+  }
+
+  h.cleanup = function () {
+    for (var i = 0; i &#x3c; cleanupFuncs.length; i++){
+      cleanupFuncs[i]()
+    }
+    cleanupFuncs.length = 0
+  }
+
+  return h
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+```
+
+### Cleaning Up
+
+If you need to clean up a widget created using hyperscript - deregistering all its event handlers and observable listeners, you
+can use `context()`.
+
+``` js
+var h = require(&#x27;hyperscript&#x27;).<span class="apidocCodeKeywordSpan">context</span>()
+var o = require(&#x27;observable&#x27;)
+var text = o()
+text(&#x27;click here to win a prize&#x27;)
+h(&#x27;a&#x27;, {href: &#x27;#&#x27;,
+onclick: function (e) {
+  text(&#x27;you are 1,000,000th visitor!&#x27;)
+  e.preventDefault()
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
