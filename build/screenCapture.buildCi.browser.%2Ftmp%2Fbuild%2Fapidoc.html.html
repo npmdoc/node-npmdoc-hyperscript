@@ -1,4 +1,4 @@
-<div class="apidocDiv">
+<html><head></head><body><div class="apidocDiv">
 <style>
 /*csslint
 */
@@ -47,17 +47,10 @@
 }
 </style>
 <h1>api documentation for
-    <a
-
-        href="https://github.com/dominictarr/hyperscript"
-
-    >hyperscript (v2.0.2)</a>
+    <a href="https://github.com/dominictarr/hyperscript">hyperscript (v2.0.2)</a>
 </h1>
 <h4>Create HyperText with JavaScript, on client or server.</h4>
-<div class="apidocSectionDiv"><a
-    href="#apidoc.tableOfContents"
-    id="apidoc.tableOfContents"
-><h1>table of contents</h1></a><ol>
+<div class="apidocSectionDiv"><a href="#apidoc.tableOfContents" id="apidoc.tableOfContents"><h1>table of contents</h1></a><ol>
 
     <li class="apidocModuleLi"><a href="#apidoc.module.hyperscript">module hyperscript</a><ol>
 
@@ -148,35 +141,35 @@
   function item (l) {
     var r
     function parseClass (string) {
-      // Our minimal parser doesn’t understand escaping CSS special
-      // characters like `#`. Don’t use them. More reading:
+      // Our minimal parser doesnâ€™t understand escaping CSS special
+      // characters like `#`. Donâ€™t use them. More reading:
       // https://mathiasbynens.be/notes/css-escapes .
 
       var m = split(string, /([\.#]?[^\s#.]+)/)
       if(/^\.|#/.test(m[1]))
-        e = document.createElement(&#x27;div&#x27;)
+        e = document.createElement('div')
       forEach(m, function (v) {
         var s = v.substring(1,v.length)
         if(!v) return
         if(!e)
           e = document.createElement(v)
-        else if (v[0] === &#x27;.&#x27;)
+        else if (v[0] === '.')
           ClassList(e).add(s)
-        else if (v[0] === &#x27;#&#x27;)
-          e.setAttribute(&#x27;id&#x27;, s)
+        else if (v[0] === '#')
+          e.setAttribute('id', s)
       })
     }
 
     if(l == null)
       ;
-    else if(&#x27;string&#x27; === typeof l) {
+    else if('string' === typeof l) {
       if(!e)
         parseClass(l)
       else
         e.appendChild(r = document.createTextNode(l))
     }
-    else if(&#x27;number&#x27; === typeof l
-      || &#x27;boolean&#x27; === typeof l
+    else if('number' === typeof l
+      || 'boolean' === typeof l
       || l instanceof Date
       || l instanceof RegExp ) {
         e.appendChild(r = document.createTextNode(l.toString()))
@@ -188,9 +181,9 @@
       e.appendChild(r = l)
     else if(l instanceof Text)
       e.appendChild(r = l)
-    else if (&#x27;object&#x27; === typeof l) {
+    else if ('object' === typeof l) {
       for (var k in l) {
-        if(&#x27;function&#x27; === typeof l[k]) {
+        if('function' === typeof l[k]) {
           if(/^on\w+/.test(k)) {
             (function (k, l) { // capture k, l in the closure
               if (e.addEventListener){
@@ -213,12 +206,12 @@
             }))
           }
         }
-        else if(k === &#x27;style&#x27;) {
-          if(&#x27;string&#x27; === typeof l[k]) {
+        else if(k === 'style') {
+          if('string' === typeof l[k]) {
             e.style.cssText = l[k]
           }else{
             for (var s in l[k]) (function(s, v) {
-              if(&#x27;function&#x27; === typeof v) {
+              if('function' === typeof v) {
                 // observable
                 e.style.setProperty(s, v())
                 cleanupFuncs.push(v(function (val) {
@@ -227,30 +220,30 @@
               } else
                 var match = l[k][s].match(/(.*)\W+!important\W*$/);
                 if (match) {
-                  e.style.setProperty(s, match[1], &#x27;important&#x27;)
+                  e.style.setProperty(s, match[1], 'important')
                 } else {
                   e.style.setProperty(s, l[k][s])
                 }
             })(s, l[k][s])
           }
-        } else if(k === &#x27;attrs&#x27;) {
+        } else if(k === 'attrs') {
           for (var v in l[k]) {
             e.setAttribute(v, l[k][v])
           }
         }
-        else if (k.substr(0, 5) === &#x22;data-&#x22;) {
+        else if (k.substr(0, 5) === "data-") {
           e.setAttribute(k, l[k])
         } else {
           e[k] = l[k]
         }
       }
-    } else if (&#x27;function&#x27; === typeof l) {
-      //assume it&#x27;s an observable!
+    } else if ('function' === typeof l) {
+      //assume it's an observable!
       var v = l()
       e.appendChild(r = isNode(v) ? v : document.createTextNode(v))
 
       cleanupFuncs.push(l(function (v) {
-        if(isNode(v) &#x26;&#x26; r.parentElement)
+        if(isNode(v) &amp;&amp; r.parentElement)
           r.parentElement.replaceChild(v, r), r = v
         else
           r.textContent = v
@@ -277,13 +270,13 @@
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">cleanup = function () {
-  for (var i = 0; i &#x3c; cleanupFuncs.length; i++){
+  for (var i = 0; i &lt; cleanupFuncs.length; i++){
     cleanupFuncs[i]()
   }
   cleanupFuncs.length = 0
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-    text(&#x27;you are 1,000,000th visitor!&#x27;)
+    text('you are 1,000,000th visitor!')
     e.preventDefault()
   }
 }, text)
@@ -297,7 +290,7 @@ h.<span class="apidocCodeKeywordSpan">cleanup</span>()
 
 * [html2hscript](https://github.com/twilson63/html2hscript) - Parse HTML into hyperscript
 * [dom2hscript](https://github.com/AkeemMcLennon/dom2hscript) - Frontend library for parsing HTML into hyperscript using the browser
-&#x27;s built in parser.
+'s built in parser.
 * [html2hscript.herokuapp.com](http://html2hscript.herokuapp.com/) - Online Tool that converts html snippets to hyperscript
 ...</pre></li>
     </ul>
@@ -320,35 +313,35 @@ h.<span class="apidocCodeKeywordSpan">cleanup</span>()
     function item (l) {
       var r
       function parseClass (string) {
-        // Our minimal parser doesn’t understand escaping CSS special
-        // characters like `#`. Don’t use them. More reading:
+        // Our minimal parser doesnâ€™t understand escaping CSS special
+        // characters like `#`. Donâ€™t use them. More reading:
         // https://mathiasbynens.be/notes/css-escapes .
 
         var m = split(string, /([\.#]?[^\s#.]+)/)
         if(/^\.|#/.test(m[1]))
-          e = document.createElement(&#x27;div&#x27;)
+          e = document.createElement('div')
         forEach(m, function (v) {
           var s = v.substring(1,v.length)
           if(!v) return
           if(!e)
             e = document.createElement(v)
-          else if (v[0] === &#x27;.&#x27;)
+          else if (v[0] === '.')
             ClassList(e).add(s)
-          else if (v[0] === &#x27;#&#x27;)
-            e.setAttribute(&#x27;id&#x27;, s)
+          else if (v[0] === '#')
+            e.setAttribute('id', s)
         })
       }
 
       if(l == null)
         ;
-      else if(&#x27;string&#x27; === typeof l) {
+      else if('string' === typeof l) {
         if(!e)
           parseClass(l)
         else
           e.appendChild(r = document.createTextNode(l))
       }
-      else if(&#x27;number&#x27; === typeof l
-        || &#x27;boolean&#x27; === typeof l
+      else if('number' === typeof l
+        || 'boolean' === typeof l
         || l instanceof Date
         || l instanceof RegExp ) {
           e.appendChild(r = document.createTextNode(l.toString()))
@@ -360,9 +353,9 @@ h.<span class="apidocCodeKeywordSpan">cleanup</span>()
         e.appendChild(r = l)
       else if(l instanceof Text)
         e.appendChild(r = l)
-      else if (&#x27;object&#x27; === typeof l) {
+      else if ('object' === typeof l) {
         for (var k in l) {
-          if(&#x27;function&#x27; === typeof l[k]) {
+          if('function' === typeof l[k]) {
             if(/^on\w+/.test(k)) {
               (function (k, l) { // capture k, l in the closure
                 if (e.addEventListener){
@@ -385,12 +378,12 @@ h.<span class="apidocCodeKeywordSpan">cleanup</span>()
               }))
             }
           }
-          else if(k === &#x27;style&#x27;) {
-            if(&#x27;string&#x27; === typeof l[k]) {
+          else if(k === 'style') {
+            if('string' === typeof l[k]) {
               e.style.cssText = l[k]
             }else{
               for (var s in l[k]) (function(s, v) {
-                if(&#x27;function&#x27; === typeof v) {
+                if('function' === typeof v) {
                   // observable
                   e.style.setProperty(s, v())
                   cleanupFuncs.push(v(function (val) {
@@ -399,30 +392,30 @@ h.<span class="apidocCodeKeywordSpan">cleanup</span>()
                 } else
                   var match = l[k][s].match(/(.*)\W+!important\W*$/);
                   if (match) {
-                    e.style.setProperty(s, match[1], &#x27;important&#x27;)
+                    e.style.setProperty(s, match[1], 'important')
                   } else {
                     e.style.setProperty(s, l[k][s])
                   }
               })(s, l[k][s])
             }
-          } else if(k === &#x27;attrs&#x27;) {
+          } else if(k === 'attrs') {
             for (var v in l[k]) {
               e.setAttribute(v, l[k][v])
             }
           }
-          else if (k.substr(0, 5) === &#x22;data-&#x22;) {
+          else if (k.substr(0, 5) === "data-") {
             e.setAttribute(k, l[k])
           } else {
             e[k] = l[k]
           }
         }
-      } else if (&#x27;function&#x27; === typeof l) {
-        //assume it&#x27;s an observable!
+      } else if ('function' === typeof l) {
+        //assume it's an observable!
         var v = l()
         e.appendChild(r = isNode(v) ? v : document.createTextNode(v))
 
         cleanupFuncs.push(l(function (v) {
-          if(isNode(v) &#x26;&#x26; r.parentElement)
+          if(isNode(v) &amp;&amp; r.parentElement)
             r.parentElement.replaceChild(v, r), r = v
           else
             r.textContent = v
@@ -438,7 +431,7 @@ h.<span class="apidocCodeKeywordSpan">cleanup</span>()
   }
 
   h.cleanup = function () {
-    for (var i = 0; i &#x3c; cleanupFuncs.length; i++){
+    for (var i = 0; i &lt; cleanupFuncs.length; i++){
       cleanupFuncs[i]()
     }
     cleanupFuncs.length = 0
@@ -455,13 +448,13 @@ If you need to clean up a widget created using hyperscript - deregistering all i
 can use `context()`.
 
 ``` js
-var h = require(&#x27;hyperscript&#x27;).<span class="apidocCodeKeywordSpan">context</span>()
-var o = require(&#x27;observable&#x27;)
+var h = require('hyperscript').<span class="apidocCodeKeywordSpan">context</span>()
+var o = require('observable')
 var text = o()
-text(&#x27;click here to win a prize&#x27;)
-h(&#x27;a&#x27;, {href: &#x27;#&#x27;,
+text('click here to win a prize')
+h('a', {href: '#',
 onclick: function (e) {
-  text(&#x27;you are 1,000,000th visitor!&#x27;)
+  text('you are 1,000,000th visitor!')
   e.preventDefault()
 ...</pre></li>
     </ul>
@@ -480,35 +473,35 @@ onclick: function (e) {
   function item (l) {
     var r
     function parseClass (string) {
-      // Our minimal parser doesn’t understand escaping CSS special
-      // characters like `#`. Don’t use them. More reading:
+      // Our minimal parser doesnâ€™t understand escaping CSS special
+      // characters like `#`. Donâ€™t use them. More reading:
       // https://mathiasbynens.be/notes/css-escapes .
 
       var m = split(string, /([\.#]?[^\s#.]+)/)
       if(/^\.|#/.test(m[1]))
-        e = document.createElement(&#x27;div&#x27;)
+        e = document.createElement('div')
       forEach(m, function (v) {
         var s = v.substring(1,v.length)
         if(!v) return
         if(!e)
           e = document.createElement(v)
-        else if (v[0] === &#x27;.&#x27;)
+        else if (v[0] === '.')
           ClassList(e).add(s)
-        else if (v[0] === &#x27;#&#x27;)
-          e.setAttribute(&#x27;id&#x27;, s)
+        else if (v[0] === '#')
+          e.setAttribute('id', s)
       })
     }
 
     if(l == null)
       ;
-    else if(&#x27;string&#x27; === typeof l) {
+    else if('string' === typeof l) {
       if(!e)
         parseClass(l)
       else
         e.appendChild(r = document.createTextNode(l))
     }
-    else if(&#x27;number&#x27; === typeof l
-      || &#x27;boolean&#x27; === typeof l
+    else if('number' === typeof l
+      || 'boolean' === typeof l
       || l instanceof Date
       || l instanceof RegExp ) {
         e.appendChild(r = document.createTextNode(l.toString()))
@@ -520,9 +513,9 @@ onclick: function (e) {
       e.appendChild(r = l)
     else if(l instanceof Text)
       e.appendChild(r = l)
-    else if (&#x27;object&#x27; === typeof l) {
+    else if ('object' === typeof l) {
       for (var k in l) {
-        if(&#x27;function&#x27; === typeof l[k]) {
+        if('function' === typeof l[k]) {
           if(/^on\w+/.test(k)) {
             (function (k, l) { // capture k, l in the closure
               if (e.addEventListener){
@@ -545,12 +538,12 @@ onclick: function (e) {
             }))
           }
         }
-        else if(k === &#x27;style&#x27;) {
-          if(&#x27;string&#x27; === typeof l[k]) {
+        else if(k === 'style') {
+          if('string' === typeof l[k]) {
             e.style.cssText = l[k]
           }else{
             for (var s in l[k]) (function(s, v) {
-              if(&#x27;function&#x27; === typeof v) {
+              if('function' === typeof v) {
                 // observable
                 e.style.setProperty(s, v())
                 cleanupFuncs.push(v(function (val) {
@@ -559,30 +552,30 @@ onclick: function (e) {
               } else
                 var match = l[k][s].match(/(.*)\W+!important\W*$/);
                 if (match) {
-                  e.style.setProperty(s, match[1], &#x27;important&#x27;)
+                  e.style.setProperty(s, match[1], 'important')
                 } else {
                   e.style.setProperty(s, l[k][s])
                 }
             })(s, l[k][s])
           }
-        } else if(k === &#x27;attrs&#x27;) {
+        } else if(k === 'attrs') {
           for (var v in l[k]) {
             e.setAttribute(v, l[k][v])
           }
         }
-        else if (k.substr(0, 5) === &#x22;data-&#x22;) {
+        else if (k.substr(0, 5) === "data-") {
           e.setAttribute(k, l[k])
         } else {
           e[k] = l[k]
         }
       }
-    } else if (&#x27;function&#x27; === typeof l) {
-      //assume it&#x27;s an observable!
+    } else if ('function' === typeof l) {
+      //assume it's an observable!
       var v = l()
       e.appendChild(r = isNode(v) ? v : document.createTextNode(v))
 
       cleanupFuncs.push(l(function (v) {
-        if(isNode(v) &#x26;&#x26; r.parentElement)
+        if(isNode(v) &amp;&amp; r.parentElement)
           r.parentElement.replaceChild(v, r), r = v
         else
           r.textContent = v
@@ -618,35 +611,35 @@ onclick: function (e) {
   function item (l) {
     var r
     function parseClass (string) {
-      // Our minimal parser doesn’t understand escaping CSS special
-      // characters like `#`. Don’t use them. More reading:
+      // Our minimal parser doesnâ€™t understand escaping CSS special
+      // characters like `#`. Donâ€™t use them. More reading:
       // https://mathiasbynens.be/notes/css-escapes .
 
       var m = split(string, /([\.#]?[^\s#.]+)/)
       if(/^\.|#/.test(m[1]))
-        e = document.createElement(&#x27;div&#x27;)
+        e = document.createElement('div')
       forEach(m, function (v) {
         var s = v.substring(1,v.length)
         if(!v) return
         if(!e)
           e = document.createElement(v)
-        else if (v[0] === &#x27;.&#x27;)
+        else if (v[0] === '.')
           ClassList(e).add(s)
-        else if (v[0] === &#x27;#&#x27;)
-          e.setAttribute(&#x27;id&#x27;, s)
+        else if (v[0] === '#')
+          e.setAttribute('id', s)
       })
     }
 
     if(l == null)
       ;
-    else if(&#x27;string&#x27; === typeof l) {
+    else if('string' === typeof l) {
       if(!e)
         parseClass(l)
       else
         e.appendChild(r = document.createTextNode(l))
     }
-    else if(&#x27;number&#x27; === typeof l
-      || &#x27;boolean&#x27; === typeof l
+    else if('number' === typeof l
+      || 'boolean' === typeof l
       || l instanceof Date
       || l instanceof RegExp ) {
         e.appendChild(r = document.createTextNode(l.toString()))
@@ -658,9 +651,9 @@ onclick: function (e) {
       e.appendChild(r = l)
     else if(l instanceof Text)
       e.appendChild(r = l)
-    else if (&#x27;object&#x27; === typeof l) {
+    else if ('object' === typeof l) {
       for (var k in l) {
-        if(&#x27;function&#x27; === typeof l[k]) {
+        if('function' === typeof l[k]) {
           if(/^on\w+/.test(k)) {
             (function (k, l) { // capture k, l in the closure
               if (e.addEventListener){
@@ -683,12 +676,12 @@ onclick: function (e) {
             }))
           }
         }
-        else if(k === &#x27;style&#x27;) {
-          if(&#x27;string&#x27; === typeof l[k]) {
+        else if(k === 'style') {
+          if('string' === typeof l[k]) {
             e.style.cssText = l[k]
           }else{
             for (var s in l[k]) (function(s, v) {
-              if(&#x27;function&#x27; === typeof v) {
+              if('function' === typeof v) {
                 // observable
                 e.style.setProperty(s, v())
                 cleanupFuncs.push(v(function (val) {
@@ -697,30 +690,30 @@ onclick: function (e) {
               } else
                 var match = l[k][s].match(/(.*)\W+!important\W*$/);
                 if (match) {
-                  e.style.setProperty(s, match[1], &#x27;important&#x27;)
+                  e.style.setProperty(s, match[1], 'important')
                 } else {
                   e.style.setProperty(s, l[k][s])
                 }
             })(s, l[k][s])
           }
-        } else if(k === &#x27;attrs&#x27;) {
+        } else if(k === 'attrs') {
           for (var v in l[k]) {
             e.setAttribute(v, l[k][v])
           }
         }
-        else if (k.substr(0, 5) === &#x22;data-&#x22;) {
+        else if (k.substr(0, 5) === "data-") {
           e.setAttribute(k, l[k])
         } else {
           e[k] = l[k]
         }
       }
-    } else if (&#x27;function&#x27; === typeof l) {
-      //assume it&#x27;s an observable!
+    } else if ('function' === typeof l) {
+      //assume it's an observable!
       var v = l()
       e.appendChild(r = isNode(v) ? v : document.createTextNode(v))
 
       cleanupFuncs.push(l(function (v) {
-        if(isNode(v) &#x26;&#x26; r.parentElement)
+        if(isNode(v) &amp;&amp; r.parentElement)
           r.parentElement.replaceChild(v, r), r = v
         else
           r.textContent = v
@@ -747,13 +740,13 @@ onclick: function (e) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">cleanup = function () {
-  for (var i = 0; i &#x3c; cleanupFuncs.length; i++){
+  for (var i = 0; i &lt; cleanupFuncs.length; i++){
     cleanupFuncs[i]()
   }
   cleanupFuncs.length = 0
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-    text(&#x27;you are 1,000,000th visitor!&#x27;)
+    text('you are 1,000,000th visitor!')
     e.preventDefault()
   }
 }, text)
@@ -767,7 +760,7 @@ h.<span class="apidocCodeKeywordSpan">cleanup</span>()
 
 * [html2hscript](https://github.com/twilson63/html2hscript) - Parse HTML into hyperscript
 * [dom2hscript](https://github.com/AkeemMcLennon/dom2hscript) - Frontend library for parsing HTML into hyperscript using the browser
-&#x27;s built in parser.
+'s built in parser.
 * [html2hscript.herokuapp.com](http://html2hscript.herokuapp.com/) - Online Tool that converts html snippets to hyperscript
 ...</pre></li>
     </ul>
@@ -790,35 +783,35 @@ h.<span class="apidocCodeKeywordSpan">cleanup</span>()
     function item (l) {
       var r
       function parseClass (string) {
-        // Our minimal parser doesn’t understand escaping CSS special
-        // characters like `#`. Don’t use them. More reading:
+        // Our minimal parser doesnâ€™t understand escaping CSS special
+        // characters like `#`. Donâ€™t use them. More reading:
         // https://mathiasbynens.be/notes/css-escapes .
 
         var m = split(string, /([\.#]?[^\s#.]+)/)
         if(/^\.|#/.test(m[1]))
-          e = document.createElement(&#x27;div&#x27;)
+          e = document.createElement('div')
         forEach(m, function (v) {
           var s = v.substring(1,v.length)
           if(!v) return
           if(!e)
             e = document.createElement(v)
-          else if (v[0] === &#x27;.&#x27;)
+          else if (v[0] === '.')
             ClassList(e).add(s)
-          else if (v[0] === &#x27;#&#x27;)
-            e.setAttribute(&#x27;id&#x27;, s)
+          else if (v[0] === '#')
+            e.setAttribute('id', s)
         })
       }
 
       if(l == null)
         ;
-      else if(&#x27;string&#x27; === typeof l) {
+      else if('string' === typeof l) {
         if(!e)
           parseClass(l)
         else
           e.appendChild(r = document.createTextNode(l))
       }
-      else if(&#x27;number&#x27; === typeof l
-        || &#x27;boolean&#x27; === typeof l
+      else if('number' === typeof l
+        || 'boolean' === typeof l
         || l instanceof Date
         || l instanceof RegExp ) {
           e.appendChild(r = document.createTextNode(l.toString()))
@@ -830,9 +823,9 @@ h.<span class="apidocCodeKeywordSpan">cleanup</span>()
         e.appendChild(r = l)
       else if(l instanceof Text)
         e.appendChild(r = l)
-      else if (&#x27;object&#x27; === typeof l) {
+      else if ('object' === typeof l) {
         for (var k in l) {
-          if(&#x27;function&#x27; === typeof l[k]) {
+          if('function' === typeof l[k]) {
             if(/^on\w+/.test(k)) {
               (function (k, l) { // capture k, l in the closure
                 if (e.addEventListener){
@@ -855,12 +848,12 @@ h.<span class="apidocCodeKeywordSpan">cleanup</span>()
               }))
             }
           }
-          else if(k === &#x27;style&#x27;) {
-            if(&#x27;string&#x27; === typeof l[k]) {
+          else if(k === 'style') {
+            if('string' === typeof l[k]) {
               e.style.cssText = l[k]
             }else{
               for (var s in l[k]) (function(s, v) {
-                if(&#x27;function&#x27; === typeof v) {
+                if('function' === typeof v) {
                   // observable
                   e.style.setProperty(s, v())
                   cleanupFuncs.push(v(function (val) {
@@ -869,30 +862,30 @@ h.<span class="apidocCodeKeywordSpan">cleanup</span>()
                 } else
                   var match = l[k][s].match(/(.*)\W+!important\W*$/);
                   if (match) {
-                    e.style.setProperty(s, match[1], &#x27;important&#x27;)
+                    e.style.setProperty(s, match[1], 'important')
                   } else {
                     e.style.setProperty(s, l[k][s])
                   }
               })(s, l[k][s])
             }
-          } else if(k === &#x27;attrs&#x27;) {
+          } else if(k === 'attrs') {
             for (var v in l[k]) {
               e.setAttribute(v, l[k][v])
             }
           }
-          else if (k.substr(0, 5) === &#x22;data-&#x22;) {
+          else if (k.substr(0, 5) === "data-") {
             e.setAttribute(k, l[k])
           } else {
             e[k] = l[k]
           }
         }
-      } else if (&#x27;function&#x27; === typeof l) {
-        //assume it&#x27;s an observable!
+      } else if ('function' === typeof l) {
+        //assume it's an observable!
         var v = l()
         e.appendChild(r = isNode(v) ? v : document.createTextNode(v))
 
         cleanupFuncs.push(l(function (v) {
-          if(isNode(v) &#x26;&#x26; r.parentElement)
+          if(isNode(v) &amp;&amp; r.parentElement)
             r.parentElement.replaceChild(v, r), r = v
           else
             r.textContent = v
@@ -908,7 +901,7 @@ h.<span class="apidocCodeKeywordSpan">cleanup</span>()
   }
 
   h.cleanup = function () {
-    for (var i = 0; i &#x3c; cleanupFuncs.length; i++){
+    for (var i = 0; i &lt; cleanupFuncs.length; i++){
       cleanupFuncs[i]()
     }
     cleanupFuncs.length = 0
@@ -925,13 +918,13 @@ If you need to clean up a widget created using hyperscript - deregistering all i
 can use `context()`.
 
 ``` js
-var h = require(&#x27;hyperscript&#x27;).<span class="apidocCodeKeywordSpan">context</span>()
-var o = require(&#x27;observable&#x27;)
+var h = require('hyperscript').<span class="apidocCodeKeywordSpan">context</span>()
+var o = require('observable')
 var text = o()
-text(&#x27;click here to win a prize&#x27;)
-h(&#x27;a&#x27;, {href: &#x27;#&#x27;,
+text('click here to win a prize')
+h('a', {href: '#',
 onclick: function (e) {
-  text(&#x27;you are 1,000,000th visitor!&#x27;)
+  text('you are 1,000,000th visitor!')
   e.preventDefault()
 ...</pre></li>
     </ul>
@@ -945,3 +938,4 @@ onclick: function (e) {
     ]
 </div>
 </div>
+</body></html>
